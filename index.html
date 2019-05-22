@@ -1,0 +1,116 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="main.css" rel="stylesheet"> <!--css style sheet-->
+    <title>MLB Game Info</title>
+    <link href="https://fonts.googleapis.com/css?family=Cairo" rel="stylesheet"> <!--google font-->
+</head>
+
+<body onload="init()">
+    <div id="main"><!--main div for all data-->
+        <div id="date"> <!--date div box-->
+            <select id="years"></select>
+            <select id="months"></select>
+            <select id="days"></select>
+            <br>
+            <input type="button" id="retrieve" value="Retrieve &#8608;" onclick="getBaseballDataSynch()">
+        </div>
+        <div id="mlbInfo"><!--mlb div box-->
+            Home Team Name <br><input type="textbox" id="homeTeam" onkeypress="filter(this)" size="35"><br> 
+            Away Team Name <br><input type="textbox" id="awayTeam" onkeypress="filter(this)" size="35"><br> 
+            Winning Pitcher <br><input type="textbox" id="winningPitcher" onkeypress="filter(this)" size="35"><br> 
+            Losing Pitcher <br><input type="textbox" id="losingPitcher" onkeypress="filter(this)" size="35"><br> 
+            Venue <br><input type="textbox" id="venue" onkeypress="filter(this)" size="35">
+        </div>
+        <div id="buttons"><!--buttons div box-->
+            <input type="button" id="previousGame" value="Previous &#8608;" onclick="prevGame()">
+            <input type="button" id="nextGame" value="Next &#8608;" onclick="nextGame()">
+            <input type="button" id="saveChanges" value="Save &#8608;">
+        </div>
+</body>
+
+<script>
+    var years = document.getElementById("years"); 
+    var months = document.getElementById("months");
+    var days = document.getElementById("days");
+    var gameYear = ["2015", "2016", "2017"];
+    var gameDay = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
+    var gameMonth = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+    var homeTeam = document.getElementById("homeTeam");
+    var awayTeam = document.getElementById("awayTeam");
+    var winningPitcher = document.getElementById("winningPitcher");
+    var losingPitcher = document.getElementById("losingPitcher");
+    var venue = document.getElementById("venue");
+    var jsObject = "";
+    var current = 0;
+    //all variables needed to output all info.
+
+    function init() {
+        loadArray(years, gameYear);
+        loadArray(months, gameMonth);
+        loadArray(days, gameDay);
+    } //function to output the date arrays on page load
+
+    function loadArray(sel, array) {
+        for (var i = 0; i < array.length; i++) {
+            sel.options[i] = new Option(array[i], i);
+        }
+    } //for loop to load the arrays on page load
+
+    function getBaseballDataSynch() {
+        var year = years.options[years.selectedIndex].text;
+        var month = months.options[months.selectedIndex].text;
+        var day = days.options[days.selectedIndex].text;
+        var tempURL = "http://gd2.mlb.com/components/game/mlb/year_" + year + "/month_" + month + "/day_" + day + "/master_scoreboard.json";
+        var baseballJson = getJSONSynch(tempURL);
+
+        jsObject = JSON.parse(baseballJson);
+
+        homeTeam.value = jsObject.data.games.game[current].home_team_name;
+        awayTeam.value = jsObject.data.games.game[current].away_team_name;
+        winningPitcher.value = jsObject.data.games.game[current].winning_pitcher.first + " " + jsObject.data.games.game[0].winning_pitcher.last;
+        losingPitcher.value = jsObject.data.games.game[current].losing_pitcher.first + " " + jsObject.data.games.game[0].losing_pitcher.last;
+        venue.value = jsObject.data.games.game[current].venue;
+    } //function to synchronize the data from the json API
+
+    function getJSONSynch(url) {
+        var resp;
+        var xmlHttp;
+
+        resp = "";
+        xmlHttp = new XMLHttpRequest();
+
+        if (xmlHttp !== null) {
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send();
+            resp = xmlHttp.responseText;
+        }
+        return resp;
+    } //function to get the data from the API
+
+    function prevGame() {
+        if (current > 0) {
+            current--;
+            homeTeam.value = jsObject.data.games.game[current].home_team_name;
+            awayTeam.value = jsObject.data.games.game[current].away_team_name;
+            winningPitcher.value = jsObject.data.games.game[current].winning_pitcher.first + " " + jsObject.data.games.game[0].winning_pitcher.last;
+            losingPitcher.value = jsObject.data.games.game[current].losing_pitcher.first + " " + jsObject.data.games.game[0].losing_pitcher.last;
+            venue.value = jsObject.data.games.game[current].venue;
+        }
+    } //function to get the previous games data
+
+    function nextGame() {
+        current++;
+        homeTeam.value = jsObject.data.games.game[current].home_team_name;
+        awayTeam.value = jsObject.data.games.game[current].away_team_name;
+        winningPitcher.value = jsObject.data.games.game[current].winning_pitcher.first + " " + jsObject.data.games.game[0].winning_pitcher.last;
+        losingPitcher.value = jsObject.data.games.game[current].losing_pitcher.first + " " + jsObject.data.games.game[0].losing_pitcher.last;
+        venue.value = jsObject.data.games.game[current].venue;
+    } //function to get the next games data
+
+</script>
+
+</html>

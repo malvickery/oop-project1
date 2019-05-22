@@ -1,0 +1,90 @@
+body {
+    background-image: url(Images/background.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow: hidden;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+}
+
+#main {
+    margin-left: 50%;
+    margin-top: 14%;
+
+}
+
+#date {
+    text-align: center;
+}
+
+#mlbInfo {
+    text-align: center;
+
+}
+
+#buttons {
+    text-align: center;
+}
+
+#years {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#months {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#days {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#retrieve {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#previousGame {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#nextGame {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
+
+#saveChanges {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border: none;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px
+}
